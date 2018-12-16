@@ -1,0 +1,57 @@
+Sub forwardNotices()
+
+Dim edress As String
+Dim subj As String
+Dim message As String
+Dim filename As String
+
+Dim outlookapp As Object
+Dim outlookmailitem As Object
+Dim myAttachments As Object
+
+Dim Path As String
+
+Dim lastrow As Integer
+
+Dim attachment As String
+
+Dim x As Integer
+
+x = 2
+
+Do While Sheet1.Cells(x, 1) <> ""
+
+Set outlookapp = CreateObject("Outlook.Application")
+Set outlookmailitem = outlookapp.createitem(0)
+Set myAttachments = outlookmailitem.Attachments
+
+Path = "C:\Users\U591487\Downloads\Wires\"
+
+edress = Sheet1.Cells(x, 1)
+subj = Sheet1.Cells(x, 2)
+filename = Sheet1.Cells(x, 3)
+
+attachment = Path + filename
+
+outlookmailitem.To = edress
+outlookmailitem.cc = ""
+outlookmailitem.bcc = ""
+outlookmailitem.Subject = subj
+outlookmailitem.body = subj & vbCrLf & "THANK YOU"          
+
+myAttachments.Add (attachment)
+outlookmailitem.display
+outlookmailitem.Send
+lastrow = lastrow + 1
+edress = ""
+
+x = x + 1
+
+Loop
+
+
+Set outlookapp = Nothing
+Set outlookmailitem = Nothing
+
+
+End Sub
